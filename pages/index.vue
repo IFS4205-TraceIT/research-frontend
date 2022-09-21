@@ -1,19 +1,6 @@
 <script setup lang="ts">
 const { useApi } = useAuth();
 const { data: records, refresh } = await useApi("/api/researchs");
-records.value = [
-  {
-    dob: "2021-01-01",
-    gender: "M",
-    postal_code: "asdasd",
-    list_of_vaccines: "asdasd",
-    last_close_contact: "asdasd",
-    last_infected_date: "asdsada",
-    total_infection: "asdasdasdsa",
-    total_close_contact_as_infected: "asdasdasda",
-    total_close_contact_with_infected: "12j013j2h1h912",
-  },
-];
 </script>
 <template>
   <div class="container flex w-full mx-auto my-4">
