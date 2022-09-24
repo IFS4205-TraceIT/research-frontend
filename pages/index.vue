@@ -1,6 +1,25 @@
 <script setup lang="ts">
+import { ref } from "vue";
+
 const { useApi } = useAuth();
 const { data: records, refresh } = await useApi("/api/researchs");
+
+async function filterData(event: any) {
+  let urlval: string;
+  if (event.target.value) {
+    urlval = `/api/researchs/${event.target.value}`;
+  } else {
+    urlval = `/api/researchs`;
+  }
+  try {
+    const { data: res } = await useApi(urlval);
+    records.value = res.value;
+  } catch (err) {
+    console.error(err);
+  }
+  
+}
+
 </script>
 <template>
   <div class="container flex w-full mx-auto my-4">
@@ -33,7 +52,8 @@ const { data: records, refresh } = await useApi("/api/researchs");
                 id="table-search"
                 type="input"
                 class="block p-2 pl-10 w-80 text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                placeholder="Search for items"
+                placeholder="Search for vaccines"
+                @change="filterData"
               />
             </div>
           </div>
