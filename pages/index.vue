@@ -1,6 +1,6 @@
 <script setup lang="ts">
 const { useApi } = useAuth();
-const { data: records, refresh } = await useApi("/api/researchs");
+const { data: records } = await useApi("/api/researchs");
 </script>
 <template>
   <div class="container flex w-full mx-auto my-4">
@@ -60,6 +60,7 @@ const { data: records, refresh } = await useApi("/api/researchs");
         <tbody>
           <tr
             v-for="(record, index) in records"
+            :key="index"
             class="bg-white border-b dark:bg-gray-800 dark:border-gray-700"
           >
             <td class="py-4 px-6">{{ record.dob }}</td>
