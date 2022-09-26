@@ -12,6 +12,9 @@ export default defineNuxtConfig({
       autoprefixer: {},
     },
   },
+  experimental: {
+    payloadExtraction: false,
+  },
   runtimeConfig: {
     public: {
       apiEndpoint: process.env.API_BASEURL || "http://localhost:8000",
