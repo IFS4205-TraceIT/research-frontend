@@ -1,6 +1,30 @@
 <script setup lang="ts">
 const { useApi } = useAuth();
 const { data: records } = await useApi("/api/researchs");
+
+const gender = ref("");
+const vaccines = ref("");
+const postal = ref("");
+const dob = ref("");
+
+async function filterData(event: any) {
+  const { data: records } = await useApi("/api/researchs");
+  let filteredResults = [];
+  filteredResults = [...records.value];
+  if(gender.value != ""){
+    filteredResults = filteredResults.filter(s => s.gender == gender.value);
+  }
+  if(vaccines.value != ""){
+    filteredResults = filteredResults.filter(s => s.list_of_vaccines.includes(vaccines.value) );
+  }
+  if(postal.value != ""){
+    filteredResults = filteredResults.filter(s => s.postal_code.includes(postal.value) );
+  }
+  if(dob.value != ""){
+    filteredResults = filteredResults.filter(s => s.dob.includes(dob.value) );
+  }
+  records.value = filteredResults;
+}
 </script>
 <template>
   <div class="container flex w-full mx-auto my-4">
@@ -12,29 +36,39 @@ const { data: records } = await useApi("/api/researchs");
           Researcher DB
           <div class="py-4">
             <div class="relative mt-1">
-              <div
-                class="flex absolute inset-y-0 left-0 items-center pl-3 pointer-events-none"
-              >
-                <svg
-                  class="w-5 h-5 text-gray-500 dark:text-gray-400"
-                  aria-hidden="true"
-                  fill="currentColor"
-                  viewBox="0 0 20 20"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    fill-rule="evenodd"
-                    d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"
-                    clip-rule="evenodd"
-                  ></path>
-                </svg>
-              </div>
               <input
                 id="table-search"
-                type="input"
-                class="block p-2 pl-10 w-80 text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                placeholder="Search for items"
+                type="text"
+                class="block p-2 w-80 text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                placeholder="Search for vaccines"
+                v-model="vaccines"
               />
+              <input
+                id="table-search"
+                type="text"
+                class="block p-2 w-80 text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                placeholder="Search for postal"
+                v-model="postal"
+              />
+              <input
+                id="table-search"
+                type="text"
+                class="block p-2 w-80 text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                placeholder="Search for dob"
+                v-model="dob"
+              />
+              <select id="filterGender"
+              v-model="gender"
+            class="block p-2 w-30 text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+            >
+              <option disabled value="">Please select gender</option>
+                <option value="">any</option>
+                <option value="Male">Male</option>
+                <option value="Female">Female</option>
+            </select>
+              <button class="block p-2 w-80 text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+              @click="filterData"
+              >Search</button>
             </div>
           </div>
         </caption>
