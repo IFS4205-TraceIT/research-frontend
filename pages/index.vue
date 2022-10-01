@@ -6,6 +6,7 @@ const gender = ref("");
 const vaccines = ref("");
 const postal = ref("");
 const dob = ref("");
+const total_infection = ref("");
 
 async function filterData(event: any) {
   const { data: records } = await useApi("/api/researchs");
@@ -23,6 +24,9 @@ async function filterData(event: any) {
   if(dob.value != ""){
     filteredResults = filteredResults.filter(s => s.dob.includes(dob.value) );
   }
+  if(total_infection.value != "" || total_infection.value === 0){
+    filteredResults = filteredResults.filter(s => s.total_infection === total_infection.value );
+  }
   records.value = filteredResults;
 }
 </script>
@@ -37,25 +41,28 @@ async function filterData(event: any) {
           <div class="py-4">
             <div class="relative mt-1">
               <input
-                id="table-search"
                 type="text"
                 class="block p-2 w-80 text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                 placeholder="Search for vaccines"
                 v-model="vaccines"
               />
               <input
-                id="table-search"
                 type="text"
                 class="block p-2 w-80 text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                 placeholder="Search for postal"
                 v-model="postal"
               />
               <input
-                id="table-search"
                 type="text"
                 class="block p-2 w-80 text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                 placeholder="Search for dob"
                 v-model="dob"
+              />
+              <input
+                type="number"
+                class="block p-2 w-80 text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                placeholder="Search for total infection"
+                v-model="total_infection"
               />
               <select id="filterGender"
               v-model="gender"
