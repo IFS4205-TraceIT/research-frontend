@@ -34,7 +34,6 @@ async function onSubmit() {
     } else if (err.data?.detail) {
       errorMessage.value = err.data.detail;
     } else {
-      console.error(err.data);
       errorMessage.value = "An error occurred. Please try again later.";
     }
   }
