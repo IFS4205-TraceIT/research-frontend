@@ -23,7 +23,6 @@ async function filterData(event: any) {
     filteredResults = filteredResults.filter(s => s.postal_code.includes(postal.value) );
   }
   if(dob.value !== ""){
-    console.log(parseInt("He was 40") === NaN);
     filteredResults = filteredResults.filter(s => {
       if(s.dob === dob.value){
         return true;
