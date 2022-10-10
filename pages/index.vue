@@ -1,6 +1,8 @@
 <script setup lang="ts">
 const { useApi } = useAuth();
 const { data: records } = await useApi("/api/researchs");
+let original = [];
+original = [...records.value];
 
 const gender = ref("");
 const vaccines = ref("");
@@ -9,25 +11,48 @@ const dob = ref("");
 const total_infection = ref("");
 
 async function filterData(event: any) {
-  const { data: records } = await useApi("/api/researchs");
   let filteredResults = [];
-  filteredResults = [...records.value];
-  if(gender.value != ""){
+  filteredResults = original;
+  if(gender.value !== ""){
     filteredResults = filteredResults.filter(s => s.gender == gender.value);
   }
-  if(vaccines.value != ""){
+  if(vaccines.value !== ""){
     filteredResults = filteredResults.filter(s => s.list_of_vaccines.includes(vaccines.value) );
   }
-  if(postal.value != ""){
+  if(postal.value !== ""){
     filteredResults = filteredResults.filter(s => s.postal_code.includes(postal.value) );
   }
-  if(dob.value != ""){
-    filteredResults = filteredResults.filter(s => s.dob.includes(dob.value) );
+  if(dob.value !== ""){
+    console.log(parseInt("He was 40") === NaN);
+    filteredResults = filteredResults.filter(s => {
+      if(s.dob === dob.value){
+        return true;
+      }
+      if(s.dob.includes("-")){
+        const result = s.dob.split('-');
+        if(result.length == 2){
+          return between(dob.value,result[0],result[1]);
+        }
+      }
+      return false;
+    });
   }
-  if(total_infection.value != "" || total_infection.value === 0){
+  if(total_infection.value !== ""){
     filteredResults = filteredResults.filter(s => s.total_infection === total_infection.value );
   }
   records.value = filteredResults;
+}
+function between(x, min, max) {
+  x = parseInt(x);
+  min = parseInt(min);
+  max = parseInt(max);
+  if(isNaN(x) || isNaN(min) || isNaN(max)){
+    return false;
+  }
+  if(min > max){
+    return false;
+  }
+  return x >= min && x <= max;
 }
 </script>
 <template>
