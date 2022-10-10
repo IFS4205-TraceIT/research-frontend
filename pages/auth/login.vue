@@ -35,7 +35,6 @@ async function onSubmit() {
     if (err.data?.user?.error) {
       errorMessage.value = err.data.user.error[0];
     } else {
-      console.error(err);
       errorMessage.value = "An error occurred";
     }
   }
