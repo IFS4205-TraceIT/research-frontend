@@ -8,36 +8,42 @@ const gender = ref("");
 const vaccines = ref("");
 const postal = ref("");
 const dob = ref("");
-const total_infection = ref("");
+const totalInfection = ref("");
 
-async function filterData(event: any) {
+function filterData() {
   let filteredResults = [];
   filteredResults = original;
-  if(gender.value !== ""){
-    filteredResults = filteredResults.filter(s => s.gender == gender.value);
+  if (gender.value !== "") {
+    filteredResults = filteredResults.filter((s) => s.gender === gender.value);
   }
-  if(vaccines.value !== ""){
-    filteredResults = filteredResults.filter(s => s.list_of_vaccines.includes(vaccines.value) );
+  if (vaccines.value !== "") {
+    filteredResults = filteredResults.filter((s) =>
+      s.list_of_vaccines.includes(vaccines.value)
+    );
   }
-  if(postal.value !== ""){
-    filteredResults = filteredResults.filter(s => s.postal_code.includes(postal.value) );
+  if (postal.value !== "") {
+    filteredResults = filteredResults.filter((s) =>
+      s.postal_code.includes(postal.value)
+    );
   }
-  if(dob.value !== ""){
-    filteredResults = filteredResults.filter(s => {
-      if(s.dob === dob.value){
+  if (dob.value !== "") {
+    filteredResults = filteredResults.filter((s) => {
+      if (s.dob === dob.value) {
         return true;
       }
-      if(s.dob.includes("-")){
-        const result = s.dob.split('-');
-        if(result.length == 2){
-          return between(dob.value,result[0],result[1]);
+      if (s.dob.includes("-")) {
+        const result = s.dob.split("-");
+        if (result.length === 2) {
+          return between(dob.value, result[0], result[1]);
         }
       }
       return false;
     });
   }
-  if(total_infection.value !== ""){
-    filteredResults = filteredResults.filter(s => s.total_infection === total_infection.value );
+  if (totalInfection.value !== "") {
+    filteredResults = filteredResults.filter(
+      (s) => s.totalInfection === totalInfection.value
+    );
   }
   records.value = filteredResults;
 }
@@ -45,10 +51,10 @@ function between(x, min, max) {
   x = parseInt(x);
   min = parseInt(min);
   max = parseInt(max);
-  if(isNaN(x) || isNaN(min) || isNaN(max)){
+  if (isNaN(x) || isNaN(min) || isNaN(max)) {
     return false;
   }
-  if(min > max){
+  if (min > max) {
     return false;
   }
   return x >= min && x <= max;
@@ -65,41 +71,45 @@ function between(x, min, max) {
           <div class="py-4">
             <div class="relative mt-1">
               <input
+                v-model="vaccines"
                 type="text"
                 class="block p-2 w-80 text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                 placeholder="Search for vaccines"
-                v-model="vaccines"
               />
               <input
+                v-model="postal"
                 type="text"
                 class="block p-2 w-80 text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                 placeholder="Search for postal"
-                v-model="postal"
               />
               <input
+                v-model="dob"
                 type="text"
                 class="block p-2 w-80 text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                 placeholder="Search for dob"
-                v-model="dob"
               />
               <input
+                v-model="totalInfection"
                 type="number"
                 class="block p-2 w-80 text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                 placeholder="Search for total infection"
-                v-model="total_infection"
               />
-              <select id="filterGender"
-              v-model="gender"
-            class="block p-2 w-30 text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-            >
-              <option disabled value="">Please select gender</option>
+              <select
+                id="filterGender"
+                v-model="gender"
+                class="block p-2 w-30 text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+              >
+                <option disabled value="">Please select gender</option>
                 <option value="">any</option>
                 <option value="Male">Male</option>
                 <option value="Female">Female</option>
-            </select>
-              <button class="block p-2 w-80 text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-              @click="filterData"
-              >Search</button>
+              </select>
+              <button
+                class="block p-2 w-80 text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                @click="filterData"
+              >
+                Search
+              </button>
             </div>
           </div>
         </caption>
