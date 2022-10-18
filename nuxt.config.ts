@@ -15,6 +15,9 @@ export default defineNuxtConfig({
   experimental: {
     payloadExtraction: false,
   },
+  meta: {
+    title: "TraceIT Researcher Portal",
+  },
   runtimeConfig: {
     public: {
       apiEndpoint: process.env.API_BASEURL || "http://localhost:8000",
