@@ -1,4 +1,4 @@
-# research-frontend
+# research-frontend [![Research Frontend CI](https://github.com/IFS4205-TraceIT/research-frontend/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/IFS4205-TraceIT/research-frontend/actions/workflows/ci.yml) [![Semgrep](https://github.com/IFS4205-TraceIT/research-frontend/actions/workflows/semgrep.yml/badge.svg?branch=main)](https://github.com/IFS4205-TraceIT/research-frontend/actions/workflows/semgrep.yml)
 
 Look at the [nuxt 3 documentation](https://v3.nuxtjs.org) to learn more.
 
