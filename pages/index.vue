@@ -42,7 +42,7 @@ function filterData() {
   }
   if (totalInfection.value !== "") {
     filteredResults = filteredResults.filter(
-      (s) => s.totalInfection === totalInfection.value
+      (s) => s.total_infection === totalInfection.value
     );
   }
   records.value = filteredResults;
